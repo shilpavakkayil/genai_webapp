@@ -61,7 +61,7 @@ function App() {
             content: promptMessage,
           },
         ],
-        model: "chatgpt-4o-latest",
+        model: "gpt-4",
       });
       setIsLoading(false);
 
