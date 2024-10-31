@@ -46,3 +46,31 @@ label{
   box-shadow: 1px 1px 10px #999;
   border-radius: 10px;
 }
+.questions-input{
+  width: 100%;
+
+}
+.difficulty-input
+{
+  font-size: 24px;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  box-shadow: 1px 1px 10px #999;
+  border-radius: 10px;
+}
+.submit-button{
+  width: 100%;
+  font-size: 24px;
+  padding: 14px;
+  border: none;
+  background: linear-gradient(to right, orange, rgb(105, 59, 3));
+  color: #fff;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.submit-button:hover{
+  background: linear-gradient(to left, orange, rgb(105, 59, 3));
+}
