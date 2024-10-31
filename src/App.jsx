@@ -61,7 +61,7 @@ function App() {
             content: promptMessage,
           },
         ],
-        model: "gpt-4o-mini",
+        model: "gpt-3.5-turbo-16k-0613",
       });
       setIsLoading(false);
 
