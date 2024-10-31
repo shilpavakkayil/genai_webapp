@@ -5,9 +5,11 @@ import OpenAI from 'openai';
 
 function App() {
   const [query, setQuery] = useState("");
-  const [questions, setQuestions] = useState([]);
   const [no_of_questions, setNoofQuestions] = useState(4);
+  const [isLoading, setIsLoading] = useState(false);
   const [difficulty, setDifficulty] = useState("");
+  const [questions, setQuestions] = useState([]);
+
   const handleQueryChange = (e) =>{
     setQuery(e.target.value);
   };
@@ -17,7 +19,7 @@ function App() {
   const handleDifficultyChange = (e) =>{
     setDifficulty(e.target.value);
   };
-  const [isLoading, setIsLoading] = useState(false);
+  
   const handleSubmit = (e) =>{
     e.preventDefault();
     console.log(query);
@@ -25,23 +27,29 @@ function App() {
     console.log(difficulty);
     createQuestionswithOpenaiapi();
   };
+
   const createQuestionswithOpenaiapi = async() =>{
-    const promptMessage = `Generate ${no_of_questions} ${difficulty}  questions with
+    setIsLoading(true);
+    const promptMessage = `Generate ${no_of_questions} ${difficulty} questions with 4 options in an array format on the topic: ${query}. 
+    
     Each question should be structured in JSON format with the following keys:
-    - 'question': The text of the question.
-    - 'options': An array of 4 options, each option as a string.
-    - 'correct_option': The correct option (must match one of the options)
-    - 'difficulty': The difficulty level of the question ('easy', 'medium', 'hard')
-    Output the result as an array of JSON  objects with the structure described
-    Example format:
-    [
-    {
-    "question":"What is the capital of France?",
-    "options": ["Paris","London","Berlin","Rome"],
-    "correct_option":"Paris",
-    "difficulty":"easy"
-    }
-    ]
+            - 'question': The text of the question.
+            - 'options': An array of 4 options, each option as a string.
+            - 'correct_option': The correct option (must match one of the options).
+            - 'difficulty': The difficulty level of the question ('easy', 'medium', or 'hard').
+
+            Output the result as an array of JSON objects with the structure described. Dont put anything else. Only valid Array.
+
+            Example format:
+
+            [
+            {
+                "question": "What is the capital of France?",
+                "options": ["Paris", "London", "Berlin", "Rome"],
+                "correct_option": "Paris",
+                "difficulty": "easy"
+            }
+            ]
     `;
     const openai  = new OpenAI({
       apiKey: import.meta.env.VITE_OPENAI_API_KEY,
@@ -65,16 +73,17 @@ function App() {
       setIsLoading(false);
       const response = chatCompletion?.choices[0]?.message?.content;
       const jsonoutput = JSON.parse(response);
-      console.log(questions);
-      setNoofQuestions(questions);
+      console.log(jsonoutput);
+      setQuestions(jsonoutput);
     }
     catch(error)
     {
       console.error(error);
       setIsLoading = false;
-      setNoofQuestions([]);
+      setQuestions([]);
     }
   };
+  console.log("Generated Questions", questions);
   return (
       <div className='main-container'>
         <h1>Gen AI App</h1>
@@ -100,7 +109,7 @@ function App() {
             </button>
         </div>
         <div>
-        {no_of_questions?.map(({question, options},i) => {
+        {questions?.map(({question, options},i) => {
           return(
             <div key={i} className='question-list'>
               <h4>{question}</h4>
