@@ -61,7 +61,7 @@ function App() {
             content: promptMessage,
           },
         ],
-        model: "gpt-4",
+        model: "gpt-3.5-turbo-0125",
       });
       setIsLoading(false);
 
